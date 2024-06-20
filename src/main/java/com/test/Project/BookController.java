@@ -14,14 +14,19 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping
-    public List<Book> getAllBooks() {
-        return bookService.getAllBooksInReverseOrder();
-    }
-
     @PostMapping
     public Book addBook(@RequestBody BookCreateRequest request) {
         return bookService.addBook(request);
+    }
+
+    @GetMapping("/search/{character}")
+    public List<Map.Entry<String, Long>> getAuthorsByCharacter(@PathVariable String character) {
+        return bookService.getAuthorsByCharacterFrequency(character);
+    }
+
+    @GetMapping
+    public List<Book> getAllBooks() {
+        return bookService.getAllBooksInReverseOrder();
     }
 
     @GetMapping("/authors")
@@ -29,8 +34,4 @@ public class BookController {
         return bookService.getBooksGroupedByAuthor();
     }
 
-    @GetMapping("/search/{character}")
-    public List<Map.Entry<String, Long>> getAuthorsByCharacter(@PathVariable String character) {
-        return bookService.getAuthorsByCharacterFrequency(character);
-    }
 }
